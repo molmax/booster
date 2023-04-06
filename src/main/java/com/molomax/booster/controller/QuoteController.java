@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class MessageController {
+public class QuoteController {
 
     private final HttpSender httpSender;
     private static final int REQUESTS_LIMIT = 5;
@@ -20,8 +20,8 @@ public class MessageController {
      *
      * @param limit - limit for number of outgoing http requests, must not exceed REQUESTS_LIMIT
      */
-    @GetMapping(value = "/messages")
-    public Flux<QuoteResponse> getRandomMessages(@RequestParam(value = "limit", defaultValue = "1") int limit) {
+    @GetMapping(value = "/quotes")
+    public Flux<QuoteResponse> getRandomQuotes(@RequestParam(value = "limit", defaultValue = "1") int limit) {
         if (limit <= 0) {
             limit = 1;
         }
@@ -29,6 +29,6 @@ public class MessageController {
             var msg = String.format("Invalid request parameter 'limit'. Must not exceed %d.", REQUESTS_LIMIT);
             return Flux.error(new InvalidRequestParameterException(msg));
         }
-        return httpSender.getRandomMessage(limit);
+        return httpSender.getRandomQuotes(limit);
     }
 }

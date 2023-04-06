@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class HttpSender {
     private final WebClientConfiguration config;
 
-    public Flux<QuoteResponse> getRandomMessage(int limit) {
+    public Flux<QuoteResponse> getRandomQuotes(int limit) {
         return config.getWebClient()
                 .get()
                 .accept()
