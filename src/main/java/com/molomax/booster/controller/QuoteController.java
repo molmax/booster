@@ -1,7 +1,7 @@
 package com.molomax.booster.controller;
 
 import com.molomax.booster.exceptions.InvalidRequestParameterException;
-import com.molomax.booster.http.HttpSender;
+import com.molomax.booster.service.HttpSenderService;
 import com.molomax.booster.model.QuoteResponse;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class QuoteController {
-    private final HttpSender httpSender;
+    private final HttpSenderService httpSenderService;
     private static final int REQUESTS_LIMIT = 5;
 
     /**
@@ -28,6 +28,6 @@ public class QuoteController {
             var msg = String.format("Invalid request parameter 'limit'. Must not exceed %d.", REQUESTS_LIMIT);
             return Flux.error(new InvalidRequestParameterException(msg));
         }
-        return httpSender.getRandomQuotes(limit);
+        return httpSenderService.getRandomQuotes(limit);
     }
 }

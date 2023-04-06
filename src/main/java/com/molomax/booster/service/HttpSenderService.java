@@ -1,6 +1,6 @@
-package com.molomax.booster.http;
+package com.molomax.booster.service;
 
-import com.molomax.booster.config.WebClientConfiguration;
+import com.molomax.booster.config.WebClientConfig;
 import com.molomax.booster.model.QuoteResponse;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class HttpSender {
-    private final WebClientConfiguration config;
+public class HttpSenderService {
+    private final WebClientConfig config;
 
     public Flux<QuoteResponse> getRandomQuotes(int limit) {
         return config.getWebClient()

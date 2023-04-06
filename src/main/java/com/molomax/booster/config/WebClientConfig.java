@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @ConfigurationProperties(prefix = "http-client")
 @EnableWebFlux
 @Setter
-public class WebClientConfiguration {
+public class WebClientConfig {
     private String baseUrl;
     private int connectTimeoutMs;
     private int responseTimeoutMs;
