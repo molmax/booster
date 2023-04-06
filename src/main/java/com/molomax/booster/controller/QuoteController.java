@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class QuoteController {
-
     private final HttpSender httpSender;
     private static final int REQUESTS_LIMIT = 5;
 
