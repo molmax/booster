@@ -23,9 +23,7 @@ public class WebClientConfiguration {
     private String baseUrl;
     private int connectTimeoutMs;
     private int responseTimeoutMs;
-
     private int connectedReadTimeoutMs;
-
     private int connectedWriteTimeoutMs;
 
     @Bean

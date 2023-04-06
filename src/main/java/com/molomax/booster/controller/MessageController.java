@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import lombok.RequiredArgsConstructor;
 
-@RestController()
+@RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class MessageController {
 
-    private static final int REQUESTS_LIMIT = 5;
     private final HttpSender httpSender;
+    private static final int REQUESTS_LIMIT = 5;
 
     /**
      * Returns an array of flamboyant rap quotes
@@ -21,7 +21,7 @@ public class MessageController {
      * @param limit - limit for number of outgoing http requests, must not exceed REQUESTS_LIMIT
      */
     @GetMapping(value = "/messages")
-    public Flux<QuoteResponse> getRandomMessages(@RequestParam("limit") int limit) {
+    public Flux<QuoteResponse> getRandomMessages(@RequestParam(value = "limit", defaultValue = "1") int limit) {
         if (limit <= 0) {
             limit = 1;
         }
