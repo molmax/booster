@@ -1,20 +1,21 @@
 package com.molomax.booster.http;
 
 import com.molomax.booster.config.WebClientConfiguration;
-import lombok.RequiredArgsConstructor;
+import com.molomax.booster.model.QuoteResponse;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class HttpSender {
     private final WebClientConfiguration config;
 
-    public Mono<String> getRandomMessage() {
+    public Flux<QuoteResponse> getRandomMessage(int limit) {
         return config.getWebClient()
                 .get()
                 .accept()
-                .retrieve()
-                .bodyToMono(String.class);
+                .exchangeToFlux(response -> response.bodyToFlux(QuoteResponse.class))
+                .repeat(limit - 1);
     }
 }

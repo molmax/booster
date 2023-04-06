@@ -2,4 +2,8 @@ server:
   port: 8090
 
 http-client:
-  base-url: "http://localhost:8091"
+  base-url: "https://api.kanye.rest"
+  connect-timeout-ms: 5000
+  response-timeout-ms: 5000
+  connected-read-timeout-ms: 5000
+  connected-write-timeout-ms: 5000

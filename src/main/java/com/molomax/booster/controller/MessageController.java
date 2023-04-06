@@ -1,20 +1,34 @@
 package com.molomax.booster.controller;
 
+import com.molomax.booster.exceptions.InvalidRequestParameterException;
 import com.molomax.booster.http.HttpSender;
+import com.molomax.booster.model.QuoteResponse;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @RestController()
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class MessageController {
+
+    private static final int REQUESTS_LIMIT = 5;
     private final HttpSender httpSender;
 
-    @GetMapping(value = "/messages/random")
-    public Mono<String> getRandomMessage() {
-        return httpSender.getRandomMessage();
+    /**
+     * Returns an array of flamboyant rap quotes
+     *
+     * @param limit - limit for number of outgoing http requests, must not exceed REQUESTS_LIMIT
+     */
+    @GetMapping(value = "/messages")
+    public Flux<QuoteResponse> getRandomMessages(@RequestParam("limit") int limit) {
+        if (limit <= 0) {
+            limit = 1;
+        }
+        if (limit > REQUESTS_LIMIT) {
+            var msg = String.format("Invalid request parameter 'limit'. Must not exceed %d.", REQUESTS_LIMIT);
+            return Flux.error(new InvalidRequestParameterException(msg));
+        }
+        return httpSender.getRandomMessage(limit);
     }
 }
